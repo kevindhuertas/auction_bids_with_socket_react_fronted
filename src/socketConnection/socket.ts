@@ -1,22 +1,29 @@
+import { useState } from "react";
 import io, { Socket } from "socket.io-client";
 
-const socket = io("http://localhost:2000")
+const socket = io("http://localhost:2000");
 
 function getPaintings(): Socket {
-    console.log("get-paintings");
-    socket.emit("get-paintings")
-    return socket;
+  return socket.emit("get-paintings");
 }
 
-function sendNewBid(): Socket {
-    console.log("new-bid");
-    const newBidData = { id: 1, price: 2000000014, client_id: socket.id };
-    return socket.emit("new-bid", newBidData);
+function sendNewBid(id: any, price: any): Socket {
+  const newBidData = { id: id, price: price, client_id: socket.id };
+  return socket.emit("new-bid", newBidData);
 }
 
 function getPainting(id: number): Socket {
-    console.log("get-painting");
-    return socket.emit("get-painting", { id });
+  return socket.emit("get-painting", { id });
 }
 
-export { socket as paintingSocket, getPaintings, sendNewBid, getPainting };
+function checkAutions(): Socket {
+  return socket.emit("active-auction");
+}
+
+export {
+  socket as paintingSocket,
+  getPaintings,
+  sendNewBid,
+  getPainting,
+  checkAutions,
+};
